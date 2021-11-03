@@ -11,7 +11,7 @@ namespace TicTacToe2
 
         public void PlayYatzy()
         {
-            throw new System.NotImplementedException();
+           
         }
     }
 }
