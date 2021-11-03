@@ -16,6 +16,7 @@ bld/
 *.userosscache
 *.sln.docstates
 *.DS_Store
+.idea
 
 .fake
 .ionide
