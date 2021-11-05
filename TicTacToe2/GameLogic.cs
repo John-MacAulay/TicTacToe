@@ -4,12 +4,14 @@ namespace TicTacToe2
     {
         private readonly IView _view;
         private readonly Board _board;
+        private readonly Players _players;
 
 
         public GameLogic(IView view =null)
         {
             _view = view ?? new View();
             _board = new Board();
+            _players = new Players();
         }
 
         public void PlayTicTacToe()
@@ -18,6 +20,11 @@ namespace TicTacToe2
            _view.PrintText("\n Here's the current board:");
            _view.PrintText(_board.Show());
            
+        }
+
+        public void NewRound()
+        {
+            
         }
     }
 }
