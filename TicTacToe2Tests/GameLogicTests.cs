@@ -7,23 +7,32 @@ namespace TicTacToe2Tests
     public class GameLogicTests
     {
         [Fact]
-        public void PlayTicToe_WillShowGreetingOnNewGame()
+        public void PlayTicToe_WillShowGreetingANdBlankBoardOnNewGame()
         {
-            // Assert 
-            var testView = new TestView(new []{""});
+            // Arrange
+            var testView = new TestView(new[] {""});
             var gameLogic = new GameLogic(testView);
-
-            // Act
             gameLogic.PlayTicTacToe();
-            Assert.Equal(" Welcome to Tic Tac Toe!",testView.FakeOutput[0]);
+
+            // Act //Assert
+            Assert.Equal(" Welcome to Tic Tac Toe!", testView.FakeOutput[0]);
             Assert.Equal("\n Here's the current board:", testView.FakeOutput[1]);
+            Assert.Equal($" . . .\n . . .\n . . .\n", testView.FakeOutput[2]);
         }
 
-        public void ShowBoard_WillShowABlankBoard_WhenNewlyInstantiated()
+        [Fact]
+        public void NewRound_shouldPromptForPlayerInput()
         {
-            var testView = new TestView(new []{""});
+            // Arrange
+            var testView = new TestView(new[] {""});
             var gameLogic = new GameLogic(testView);
             
+            gameLogic.NewRound();
+            
+            // Act // Assert
+            Assert.Equal(" Player 1 enter a coord x,y to place your X or enter 'q' to give up:",
+                testView.FakeOutput[0]);
+
         }
     }
 }

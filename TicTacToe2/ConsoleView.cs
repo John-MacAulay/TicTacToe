@@ -7,8 +7,7 @@ namespace TicTacToe2
         public void PrintText(string textToPrint)
         {
             Console.WriteLine(textToPrint);
-            
-            
+
         }
 
         public string GetText()

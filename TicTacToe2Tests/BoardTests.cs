@@ -8,7 +8,7 @@ namespace TicTacToe2Tests
         [Fact]
         public void ShowBoard_WillReturnABlankBoardAsString_WhenNewlyInstantiated()
         {
-            // Assert 
+            // Arrange
             var board = new Board();
             
             // Act
