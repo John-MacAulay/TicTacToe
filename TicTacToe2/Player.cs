@@ -2,12 +2,12 @@ namespace TicTacToe2
 {
     public class Player
     {
-        public readonly string Name;
-       public readonly string Mark;
-        public Player(string name ,string mark)
+        public string name { get; set; } 
+        public  string mark { get; set; }
+        public Player(string nameToAdd ,string markToAdd)
         {
-            Mark = mark;
-            Name = name;
+            mark = markToAdd;
+            name = nameToAdd;
         }
     }
 }

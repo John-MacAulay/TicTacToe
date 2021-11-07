@@ -1,13 +1,21 @@
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace TicTacToe2
 {
     public class Players
     {
-        private readonly List<Player> _players = new ()
+        public readonly List<Player> _players = new();
+
+        public Players()
         {
-            {new Player("Player 1","X")},
-            {new Player("Player 2","O")} 
-        };
+            AddPlayers();
+        }
+
+        private void AddPlayers()
+        {
+            _players.Add(new Player("Player 1", "X"));
+            _players.Add(new Player("Player 2", "Y"));
+        }
     }
 }
