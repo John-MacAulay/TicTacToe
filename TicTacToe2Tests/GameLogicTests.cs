@@ -34,5 +34,30 @@ namespace TicTacToe2Tests
                 testView.FakeOutput[0]);
             Assert.Equal(" Game over.", testView.FakeOutput[1]);
         }
+
+
+        [Theory]
+        [InlineData("some invalid position", false, "non splittable string")]
+        [InlineData("0,4", false, "splittable string, invalid position for y parameter")]
+        [InlineData("0,-1", false, "splittable string, invalid position for y parameter")]
+        [InlineData("4,2", false, "splittable string, invalid position for x parameter")]
+        [InlineData("-1,2", false, "splittable string, invalid position for x parameter")]
+        [InlineData("0,1", true, "splittable string, valid position")]
+        [InlineData("1,1", true, "splittable string, valid position")]
+        [InlineData("2,1", true, "splittable string, valid position")]
+        [InlineData("2,0", true, "splittable string, valid position")]
+        [InlineData("2,2", true, "splittable string, valid position")]
+        public void CheckValidPosition_shouldOnlyReturnValidPositions(string position, bool expected, string description)
+        {
+            // Arrange
+            var testView = new TestView(new[] {position});
+            var gameLogic = new GameLogic(testView);
+            
+            // Act
+           var actual = gameLogic.CheckValidPosition(position);
+           
+           // Assert
+           Assert.True(expected == actual, description);
+        }
     }
 }

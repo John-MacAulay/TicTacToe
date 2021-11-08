@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace TicTacToe2
@@ -35,7 +36,28 @@ namespace TicTacToe2
             {
                 _view.PrintText(" Game over.");
             }
+            // I want something to validate the text as a valid position or ask for re-entry of data 
+            var isValidPosition = CheckValidPosition(positionToPlay);
         }
-        
+
+        public bool CheckValidPosition(string positionToPlay)
+        {
+            var splitStringArray = positionToPlay.Split(",");
+            if (splitStringArray.Length != 2)
+            {
+                return false;
+            }
+            int posnX;
+            int posnY;
+            var positionXValid = Int32.TryParse(splitStringArray[0], out posnX);
+            var positionYValid = Int32.TryParse(splitStringArray[1], out posnY);
+            if (positionXValid && positionYValid && posnX is >= 0 and <= 2 && posnY is >= 0 and <= 2)
+            {
+            return true;
+                
+            }
+
+            return false;
+        }
     }
 }
