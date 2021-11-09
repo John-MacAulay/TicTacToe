@@ -10,7 +10,7 @@ namespace TicTacToe2
         private readonly Board _board;
         private readonly List<Player> _players;
         private bool? playerOneWon;
-        
+
         public GameLogic(IView view = null)
         {
             _view = view ?? new View();
@@ -32,32 +32,25 @@ namespace TicTacToe2
                 {
                     if (playerOneWon == null)
                     {
-                        
-                    NewRound(player);
+                        NewRound(player);
                     }
                 }
             }
-           
-            
-            // need to have a logic loop like until a player wins or board is full)
-            // (including other player quitting then let each player play a round)
-            
         }
 
         public void NewRound(Player player)
         {
             _view.PrintText($" {player.name} enter a coord x,y to place your X or enter 'q' to give up:");
             var gridPosition = GetPositionToPlay();
-         
+
             _board.CurrentBoardState[gridPosition.row, gridPosition.column] = player.mark;
             _view.PrintText(_board.Show());
-                
-            
-            // need to check for win 
 
+
+            // need to check for win 
         }
 
-        public(int row, int column) GetPositionToPlay()
+        public (int row, int column) GetPositionToPlay()
         {
             (int row, int column) gridPosition = (0, 0);
             var positionToPlay = _view.GetText();
@@ -85,11 +78,12 @@ namespace TicTacToe2
             {
                 var splitStringArray = positionToPlay.Split(",");
 
-                if(splitStringArray.Length ==2)
+                if (splitStringArray.Length == 2)
                 {
                     var positionXValid = Int32.TryParse(splitStringArray[0], out var gridPositionRow);
                     var positionYValid = Int32.TryParse(splitStringArray[1], out var gridPositionColumn);
-                    if (positionXValid && positionYValid && gridPositionRow is >= 0 and <= 2 && gridPositionColumn is >= 0 and <= 2)
+                    if (positionXValid && positionYValid && gridPositionRow is >= 0 and <= 2 &&
+                        gridPositionColumn is >= 0 and <= 2)
                     {
                         gridPosition.row = gridPositionRow;
                         gridPosition.column = gridPositionColumn;
@@ -98,17 +92,14 @@ namespace TicTacToe2
                         {
                             validPosition = true;
                         }
-
                     }
-                   
                 }
 
                 if (validPosition) continue;
                 _view.PrintText($" Enter a coord x,y to place your X or enter 'q' to give up:");
                 positionToPlay = _view.GetText();
-
             }
-            
+
 
             return gridPosition;
         }
