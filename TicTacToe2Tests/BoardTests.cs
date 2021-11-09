@@ -15,7 +15,7 @@ namespace TicTacToe2Tests
             var actual = board.Show();
             
             // Assert
-            Assert.Equal($" . . .\n . . .\n . . .\n",actual);
+            Assert.Equal($"   0 1 2\n 0 . . .\n 1 . . .\n 2 . . .\n",actual);
         }
     }
 }
