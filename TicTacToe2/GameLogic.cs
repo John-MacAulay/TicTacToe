@@ -10,7 +10,7 @@ namespace TicTacToe2
         private readonly Board _board;
         private readonly List<Player> _players;
         private bool? playerOneWon;
-        
+
         public GameLogic(IView view = null)
         {
             _view = view ?? new View();
@@ -22,6 +22,7 @@ namespace TicTacToe2
 
         public void PlayTicTacToe()
         {
+       
             _view.PrintText(" Welcome to Tic Tac Toe!");
             _view.PrintText("\n Here's the current board:");
             _view.PrintText(_board.Show());
@@ -32,34 +33,28 @@ namespace TicTacToe2
                 {
                     if (playerOneWon == null)
                     {
-                        
-                    NewRound(player);
+                        NewRound(player);
                     }
                 }
             }
-           
-            
-            // need to have a logic loop like until a player wins or board is full)
-            // (including other player quitting then let each player play a round)
-            
         }
 
         public void NewRound(Player player)
         {
             _view.PrintText($" {player.name} enter a coord x,y to place your X or enter 'q' to give up:");
             var gridPosition = GetPositionToPlay();
-         
-            _board.CurrentBoardState[gridPosition.row, gridPosition.column] = player.mark;
-            _view.PrintText(_board.Show());
-                
-            
-            // need to check for win 
 
+            _board.CurrentBoardState[gridPosition.Row, gridPosition.Column] = player.mark;
+            _view.PrintText(_board.Show());
+
+
+            // need to check for win 
         }
 
-        public(int row, int column) GetPositionToPlay()
+        public GridPosition GetPositionToPlay()       // (int row, int column)
         {
-            (int row, int column) gridPosition = (0, 0);
+            var position = new GridPosition(0,0);
+           // (int row, int column) gridPosition = (0, 0);
             var positionToPlay = _view.GetText();
             if (positionToPlay.ToLower() == "q")
             {
@@ -69,48 +64,47 @@ namespace TicTacToe2
             }
             else if (positionToPlay.ToLower() != "q")
             {
-                gridPosition = GetValidPosition(positionToPlay);
+                position = GetValidPosition(positionToPlay);
             }
 
-            return gridPosition;
+            return position;
         }
 
-        public (int row, int column) GetValidPosition(string positionToPlay)
+        public GridPosition GetValidPosition(string positionToPlay)
         {
             // Really think I might just make a class position with parameters row and column 
             // as the tuple is getting kind of messy 
             var validPosition = false;
-            (int row, int column) gridPosition = (0, 0);
+         //   (int row, int column) gridPosition = (0, 0);
+            var position = new GridPosition(0,0);
             while (!validPosition)
             {
                 var splitStringArray = positionToPlay.Split(",");
 
-                if(splitStringArray.Length ==2)
+                if (splitStringArray.Length == 2)
                 {
                     var positionXValid = Int32.TryParse(splitStringArray[0], out var gridPositionRow);
                     var positionYValid = Int32.TryParse(splitStringArray[1], out var gridPositionColumn);
-                    if (positionXValid && positionYValid && gridPositionRow is >= 0 and <= 2 && gridPositionColumn is >= 0 and <= 2)
+                    if (positionXValid && positionYValid && gridPositionRow is >= 0 and <= 2 &&
+                        gridPositionColumn is >= 0 and <= 2)
                     {
-                        gridPosition.row = gridPositionRow;
-                        gridPosition.column = gridPositionColumn;
+                        position.Row = gridPositionRow;
+                        position.Column = gridPositionColumn;
                         // probably put the check in here to see if position is "." and thus available
-                        if (_board.CurrentBoardState[gridPosition.row, gridPosition.column] == ".")
+                        if (_board.CurrentBoardState[position.Row, position.Column] == ".")
                         {
                             validPosition = true;
                         }
-
                     }
-                   
                 }
 
                 if (validPosition) continue;
                 _view.PrintText($" Enter a coord x,y to place your X or enter 'q' to give up:");
                 positionToPlay = _view.GetText();
-
             }
-            
 
-            return gridPosition;
+
+            return position;
         }
     }
 }

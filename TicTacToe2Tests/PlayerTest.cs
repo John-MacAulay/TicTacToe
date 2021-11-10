@@ -7,7 +7,7 @@ namespace TicTacToe2Tests
     {
         [Theory]
         [InlineData("Player 1","X","X")]
-        [InlineData("Player 2","y","y")]
+        [InlineData("Player 2","O","O")]
         public void Player_ShouldHaveCorrectMark_assignedinMarkFIeld(string name, string mark, string expected)
         {
             // Arrange 

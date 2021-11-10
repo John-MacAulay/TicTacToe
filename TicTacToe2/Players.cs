@@ -15,7 +15,7 @@ namespace TicTacToe2
         private void AddPlayers()
         {
             _players.Add(new Player("Player 1", "X"));
-            _players.Add(new Player("Player 2", "Y"));
+            _players.Add(new Player("Player 2", "O"));
         }
     }
 }
