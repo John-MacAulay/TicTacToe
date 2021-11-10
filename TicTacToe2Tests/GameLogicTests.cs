@@ -41,37 +41,37 @@ namespace TicTacToe2Tests
             yield return new object[]
             {
                 new[] {"some invalid position", "1,0"}, new GridPosition(1, 0)
-            }; // "non splittable string first then valid parameters"
+            }; 
             yield return new object[]
             {
                 new[] {"0,4", "0,1"}, new GridPosition(0, 1)
-            }; // "invalid position for column parameter then valid parameters";
+            }; 
             yield return new object[]
             {
                 new[] {"0,-1", "0,1"}, new GridPosition(0, 1)
-            }; // "invalid position for column parameter then valid parameters";
+            }; 
             yield return new object[]
             {
                 new[] {"4,2", "0,2"}, new GridPosition(0, 2)
-            }; // "invalid position for row parameter, then valid parameters";
+            }; 
             yield return new object[]
             {
                 new[] {"-1,2", "2,0"}, new GridPosition(2, 0)
-            }; // "invalid position for row parameter, then valid parameters"};
+            }; 
             yield return new object[]
-                {new[] {"0,1", "0,2"}, new GridPosition(0, 1)}; //"splittable string, valid 1st set of parameters"};
+                {new[] {"0,1", "0,2"}, new GridPosition(0, 1)}; 
             yield return new object[]
-                {new[] {"1,1"}, new GridPosition(1, 1)}; //"splittable string, valid parameters"; 
+                {new[] {"1,1"}, new GridPosition(1, 1)}; 
             yield return new object[]
-                {new[] {"0,2"}, new GridPosition(0, 2)}; // "splittable string, valid parameters";
+                {new[] {"0,2"}, new GridPosition(0, 2)}; 
             yield return new object[]
-                {new[] {"2,0"}, new GridPosition(2, 0)}; // "splittable string, valid parameters"};
+                {new[] {"2,0"}, new GridPosition(2, 0)}; 
             yield return new object[]
-                {new[] {"2,2"}, new GridPosition(2, 2)}; // "splittable string, valid parameters"};
+                {new[] {"2,2"}, new GridPosition(2, 2)}; 
             yield return new object[]
             {
                 new[] {"2,2", "1,1"}, new GridPosition(2, 2)
-            }; // "both entries valid parameters, only first returned"};
+            }; 
         }
 
         [Theory]
