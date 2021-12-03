@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TicTacToe2;
 using Xunit;
@@ -6,19 +7,6 @@ namespace TicTacToe2Tests
 {
     public class GameLogicTests
     {
-        /*[Fact]
-        public void PlayTicToe_WillShowGreetingAndBlankBoardOnNewGame()
-        {
-            // Arrange
-            var testView = new TestView(new[] {"q"});
-            var gameLogic = new GameLogic(testView);
-            gameLogic.PlayTicTacToe();
-
-            // Act //Assert
-            Assert.Equal(" Welcome to Tic Tac Toe!", testView.FakeOutput[0]);
-            Assert.Equal("\n Here's the current board:", testView.FakeOutput[1]);
-          //  Assert.Equal($"   0 1 2\n 0 . . .\n 1 . . .\n 2 . . .\n", testView.FakeOutput[2]);
-        }*/
 
         [Fact]
         public void NewRound_shouldPromptForPlayerInput()
@@ -62,7 +50,7 @@ namespace TicTacToe2Tests
 
         [Theory]
         [MemberData(nameof(GetInputs))]
-        public void GetPositionToPlay_GivenNewValuesAsInputUntilPositionIsValid_ThenReturnFirstValidPosition(
+        public void GetValidPosition_GivenCommaSeperatedStringValues_ReturnGridPositionObject(
             string input, GridPosition expected) 
         {
             // Arrange
@@ -75,6 +63,33 @@ namespace TicTacToe2Tests
 
             // Assert
              Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("0,0","   0 1 2\n 0 X . .\n 1 . . .\n 2 . . .\n")]
+        [InlineData("0,1","   0 1 2\n 0 . X .\n 1 . . .\n 2 . . .\n")]
+        [InlineData("0,2","   0 1 2\n 0 . . X\n 1 . . .\n 2 . . .\n")]
+        [InlineData("1,0","   0 1 2\n 0 . . .\n 1 X . .\n 2 . . .\n")]
+        [InlineData("1,1","   0 1 2\n 0 . . .\n 1 . X .\n 2 . . .\n")]
+        [InlineData("1,2","   0 1 2\n 0 . . .\n 1 . . X\n 2 . . .\n")]
+        [InlineData("2,0","   0 1 2\n 0 . . .\n 1 . . .\n 2 X . .\n")]
+        [InlineData("2,1","   0 1 2\n 0 . . .\n 1 . . .\n 2 . X .\n")]
+        [InlineData("2,2","   0 1 2\n 0 . . .\n 1 . . .\n 2 . . X\n")]
+        public void WhenGivenANewBoardAndValidInputs_GetPositionToPlay_ShouldUpdateBoardWithCorrectMark(string input,string expected)
+        {
+            // Arrange
+            var testView = new TestView(new[] {""});
+            var gameLogic = new GameLogic(testView);
+            var player = new Player("Player 1", "X");
+            gameLogic.GetPositionToPlay(input,player);
+            gameLogic.Board.CurrentBoardState[2, 2] = "O";
+            //var expected = $"   0 1 2\n 0 . . .\n 1 . X .\n 2 . . .\n";
+            //Act
+            var actual = testView.FakeOutput[0];
+            //Assert
+            Assert.Equal(expected,actual);
+            
+
         }
     }
 }

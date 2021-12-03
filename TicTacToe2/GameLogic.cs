@@ -7,19 +7,18 @@ namespace TicTacToe2
     public class GameLogic
     {
         private readonly IView _view;
-        private readonly Board _board;
+        public Board Board;
         private readonly List<Player> _players;
         private bool _gameOver;
         private bool _playerOneWon;
         private bool _playerTwoWon;
-
         private bool _validMoveMade;
         private int _turnCount = 1;
 
         public GameLogic(IView view = null)
         {
             _view = view ?? new View();
-            _board = new Board();
+            Board = new Board();
             var listPLayers = new Players();
             _players = listPLayers._players;
             _gameOver = false;
@@ -29,7 +28,7 @@ namespace TicTacToe2
         {
             _view.PrintText(" Welcome to Tic Tac Toe!");
             _view.PrintText("\n Here's the current board:");
-            _view.PrintText(_board.Show());
+            _view.PrintText(Board.Show());
 
             while (!_gameOver)
             {
@@ -64,10 +63,12 @@ namespace TicTacToe2
 
                 CheckForQuit(input, player);
                 GetPositionToPlay(input, player);
-                if (_turnCount > 9)
+                if (_turnCount > 9)    // or player won 
                 {
                     _gameOver = true;
                 }
+
+                CheckPlayerWon(player);
             }
         }
 
@@ -75,19 +76,91 @@ namespace TicTacToe2
         {
             var position = new GridPosition(-1, 1);
             if (_gameOver) return;
-
-
             position = GetValidPosition(input);
 
 
             if (!_validMoveMade) return;
             if (position.Row != -1)
             {
-                _board.CurrentBoardState[position.Row, position.Column] = player.mark;
+                Board.CurrentBoardState[position.Row, position.Column] = player.mark;
 
-                _view.PrintText(_board.Show());
+                _view.PrintText(Board.Show());
             }
         }
+
+        public void CheckPlayerWon(Player player)
+        {
+            var playerWins = CheckPlayerWinsOnRow(player);
+            if (playerWins == false)
+            {
+                playerWins = CheckPlayerWinsOnColumn(player);
+            }
+            if (playerWins == false)
+            {
+                playerWins = CheckPlayerWinsOnDiagonal(player);
+            }
+            if(playerWins)
+            {
+                  ChangeToGameWonStates(player);
+            }
+        }
+
+        private void ChangeToGameWonStates(Player player)
+        {
+            if (player.name == "Player 1")
+            {
+                _playerOneWon = true;
+            }
+            else
+            {
+                _playerTwoWon = true;
+            }
+
+            _gameOver = true;
+        }
+        private bool CheckPlayerWinsOnRow(Player player)
+        {
+            var playerWins = false;
+            for (int i = 0; i <= 2; i++) //checking row wins 
+            {
+                if (Board.CurrentBoardState[i, 0] == player.mark && Board.CurrentBoardState[i, 1] == player.mark &&
+                    Board.CurrentBoardState[i, 2] == player.mark)
+                {
+                    playerWins = true;
+                }
+            }
+
+            return playerWins;
+        }
+        private bool CheckPlayerWinsOnColumn(Player player)
+        {
+            bool playerWins = false;
+            for (int i = 0; i <= 2; i++) //checking row wins 
+            {
+                if (Board.CurrentBoardState[0, i] == player.mark && Board.CurrentBoardState[1, i] == player.mark &&
+                    Board.CurrentBoardState[2, i] == player.mark)
+                {
+                    playerWins = true;
+                }
+            }
+
+            return playerWins;
+        }
+
+        private bool CheckPlayerWinsOnDiagonal(Player player)
+        {
+            var playerWins =
+                Board.CurrentBoardState[0, 0] == player.mark
+                && Board.CurrentBoardState[1, 1] == player.mark &&
+                Board.CurrentBoardState[2, 2] == player.mark
+                
+                || Board.CurrentBoardState[2, 0] == player.mark
+                && Board.CurrentBoardState[1, 1] == player.mark &&
+                Board.CurrentBoardState[0, 2] == player.mark;
+
+            return playerWins;
+        }
+        
 
         private void CheckForQuit(string input, Player player)
         {
@@ -115,7 +188,7 @@ namespace TicTacToe2
             {
                 position.Row = gridPositionRow;
                 position.Column = gridPositionColumn;
-                if (_board.CurrentBoardState[position.Row, position.Column] == ".")
+                if (Board.CurrentBoardState[position.Row, position.Column] == ".")
                 {
                     _validMoveMade = true;
                 }
