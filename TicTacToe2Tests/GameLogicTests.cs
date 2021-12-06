@@ -59,7 +59,7 @@ namespace TicTacToe2Tests
             var player = new Player("Player 1", "X");
 
             // Act
-            var actual =gameLogic.GetValidPosition(input);
+            var actual =gameLogic.ValidatePosition(input);
 
             // Assert
              Assert.Equal(expected, actual);
@@ -83,7 +83,7 @@ namespace TicTacToe2Tests
             var player = new Player("Player 1", "X");
             gameLogic.GetPositionToPlay(input,player);
             gameLogic.Board.CurrentBoardState[2, 2] = "O";
-            //var expected = $"   0 1 2\n 0 . . .\n 1 . X .\n 2 . . .\n";
+
             //Act
             var actual = testView.FakeOutput[0];
             //Assert
@@ -91,5 +91,22 @@ namespace TicTacToe2Tests
             
 
         }
+        [Fact]
+        public void GivenABoard_CheckPlayerWon_should_returnCorrectWinner()
+        {
+
+            var testView = new TestView(new[] {""});
+            var gameLogic = new GameLogic(testView);
+            gameLogic.Board.CurrentBoardState[0, 0] = "X";
+            gameLogic.Board.CurrentBoardState[0, 1] = "X";
+            gameLogic.Board.CurrentBoardState[0, 2] = "X";
+            var player = new Player("Player 1", "X");
+            gameLogic.CheckPlayerWon(player);
+            gameLogic.DisplayResultOfGame();
+            var actual = testView.FakeOutput[0];
+            
+            Assert.Equal("Player One Wins!",actual);
+        }
     }
+    
 }

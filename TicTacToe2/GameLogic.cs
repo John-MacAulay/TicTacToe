@@ -7,7 +7,7 @@ namespace TicTacToe2
     public class GameLogic
     {
         private readonly IView _view;
-        public Board Board;
+        public readonly Board Board;
         private readonly List<Player> _players;
         private bool _gameOver;
         private bool _playerOneWon;
@@ -26,10 +26,7 @@ namespace TicTacToe2
 
         public void PlayTicTacToe()
         {
-            _view.PrintText(" Welcome to Tic Tac Toe!");
-            _view.PrintText("\n Here's the current board:");
-            _view.PrintText(Board.Show());
-
+            DisplayWelcomeAndInitialBoard();
             while (!_gameOver)
             {
                 foreach (var player in _players)
@@ -40,7 +37,17 @@ namespace TicTacToe2
                     }
                 }
             }
+            DisplayResultOfGame();
+        }
 
+        private void DisplayWelcomeAndInitialBoard()
+        {
+            _view.PrintText(" Welcome to Tic Tac Toe!");
+            _view.PrintText("\n Here's the current board:");
+            _view.PrintText(Board.Show());
+        }
+        public void DisplayResultOfGame()
+        {
             if (_playerOneWon)
             {
                 _view.PrintText("Player One Wins!");
@@ -51,7 +58,6 @@ namespace TicTacToe2
             }
             else _view.PrintText("It's a draw.");
         }
-
         public void NewRound(Player player)
         {
             _turnCount++;
@@ -63,7 +69,7 @@ namespace TicTacToe2
 
                 CheckForQuit(input, player);
                 GetPositionToPlay(input, player);
-                if (_turnCount > 9)    // or player won 
+                if (_turnCount > 9)   
                 {
                     _gameOver = true;
                 }
@@ -74,18 +80,11 @@ namespace TicTacToe2
 
         public void GetPositionToPlay(string input, Player player)
         {
-            var position = new GridPosition(-1, 1);
             if (_gameOver) return;
-            position = GetValidPosition(input);
-
-
+            var position = ValidatePosition(input);
             if (!_validMoveMade) return;
-            if (position.Row != -1)
-            {
-                Board.CurrentBoardState[position.Row, position.Column] = player.mark;
-
-                _view.PrintText(Board.Show());
-            }
+            Board.CurrentBoardState[position.Row, position.Column] = player.mark;
+            _view.PrintText(Board.Show());
         }
 
         public void CheckPlayerWon(Player player)
@@ -115,13 +114,12 @@ namespace TicTacToe2
             {
                 _playerTwoWon = true;
             }
-
             _gameOver = true;
         }
         private bool CheckPlayerWinsOnRow(Player player)
         {
             var playerWins = false;
-            for (int i = 0; i <= 2; i++) //checking row wins 
+            for (var i = 0; i <= 2; i++)  
             {
                 if (Board.CurrentBoardState[i, 0] == player.mark && Board.CurrentBoardState[i, 1] == player.mark &&
                     Board.CurrentBoardState[i, 2] == player.mark)
@@ -135,7 +133,7 @@ namespace TicTacToe2
         private bool CheckPlayerWinsOnColumn(Player player)
         {
             bool playerWins = false;
-            for (int i = 0; i <= 2; i++) //checking row wins 
+            for (int i = 0; i <= 2; i++) 
             {
                 if (Board.CurrentBoardState[0, i] == player.mark && Board.CurrentBoardState[1, i] == player.mark &&
                     Board.CurrentBoardState[2, i] == player.mark)
@@ -175,7 +173,7 @@ namespace TicTacToe2
         }
 
 
-        public GridPosition GetValidPosition(string positionToPlay)
+        public GridPosition ValidatePosition(string positionToPlay)
         {
             var position = new GridPosition(-1, -1);
             var splitStringArray = positionToPlay.Split(",");
