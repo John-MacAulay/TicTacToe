@@ -7,15 +7,11 @@ namespace TicTacToe2
     {
         public readonly List<Player> _players = new();
 
-        public Players()
+        
+        public Players(List<Player> players)
         {
-            AddPlayers();
+            _players.AddRange(players);
         }
-
-        private void AddPlayers()
-        {
-            _players.Add(new Player("Player 1", "X"));
-            _players.Add(new Player("Player 2", "O"));
-        }
+        
     }
 }

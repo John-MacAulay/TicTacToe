@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TicTacToe2;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace TicTacToe2Tests
             var testView = new TestView(new[] {"q"});
             var gameLogic = new GameLogic(testView);
             var player = new Player("Player 1", "X");
-
+            gameLogic.SetUpStandardPlayerNames();
             gameLogic.NewRound(player);
 
             // Act // Assert
@@ -89,23 +90,33 @@ namespace TicTacToe2Tests
             //Assert
             Assert.Equal(expected,actual);
             
-
         }
-        [Fact]
-        public void GivenABoard_CheckPlayerWon_should_returnCorrectWinner()
+        [Theory]
+        [InlineData(0,0,0,1,2,2,"Player 1","X","It's a draw.")]
+        [InlineData(0,0,0,1,0,2,"Player 1","X","Player One Wins!")]
+        [InlineData(1,0,1,1,1,2,"Player 2","O","Player Two Wins!")]
+        [InlineData(2,0,2,1,2,2,"Player 2","O","Player Two Wins!")]
+        
+        public void GivenABoard_CheckPlayerWon_shouldReturnCorrectWinner(
+            int firstXGridCoordinate, int firstYGridCoordinate,
+            int secondXGridCoordinate, int secondYGridCoordinate,
+            int thirdXGridCoordinate, int thirdYGridCoordinate,
+            string playerName, string playerMark,
+            string expected
+            )
         {
 
             var testView = new TestView(new[] {""});
             var gameLogic = new GameLogic(testView);
-            gameLogic.Board.CurrentBoardState[0, 0] = "X";
-            gameLogic.Board.CurrentBoardState[0, 1] = "X";
-            gameLogic.Board.CurrentBoardState[0, 2] = "X";
-            var player = new Player("Player 1", "X");
+            gameLogic.Board.CurrentBoardState[firstXGridCoordinate, firstYGridCoordinate] = playerMark;
+            gameLogic.Board.CurrentBoardState[secondXGridCoordinate, secondYGridCoordinate] = playerMark;
+            gameLogic.Board.CurrentBoardState[thirdXGridCoordinate, thirdYGridCoordinate] = playerMark;
+            var player = new Player(playerName,playerMark);
             gameLogic.CheckPlayerWon(player);
             gameLogic.DisplayResultOfGame();
             var actual = testView.FakeOutput[0];
             
-            Assert.Equal("Player One Wins!",actual);
+            Assert.Equal(expected,actual);
         }
     }
     

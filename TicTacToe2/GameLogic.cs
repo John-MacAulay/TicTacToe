@@ -19,14 +19,15 @@ namespace TicTacToe2
         {
             _view = view ?? new View();
             Board = new Board();
-            var listPLayers = new Players();
-            _players = listPLayers._players;
+
+            _players = new List<Player>();
             _gameOver = false;
         }
 
         public void PlayTicTacToe()
         {
-            DisplayWelcomeAndInitialBoard();
+           SetUpStandardPlayerNames();
+           DisplayWelcomeAndInitialBoard();
             while (!_gameOver)
             {
                 foreach (var player in _players)
@@ -38,6 +39,12 @@ namespace TicTacToe2
                 }
             }
             DisplayResultOfGame();
+        }
+
+        public void SetUpStandardPlayerNames()
+        {
+            _players.Add(new Player("Player 1", "X"));
+            _players.Add(new Player("Player 2", "O"));
         }
 
         private void DisplayWelcomeAndInitialBoard()
