@@ -19,7 +19,6 @@ namespace TicTacToe2
         {
             _view = view ?? new View();
             Board = new Board();
-
             _players = new List<Player>();
             _gameOver = false;
         }

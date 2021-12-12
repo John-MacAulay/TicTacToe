@@ -4,8 +4,7 @@ namespace TicTacToe2
 {
     public class GridPosition
     {
-
-
+        
         public GridPosition(int row, int column )
         {
             Row = row;
