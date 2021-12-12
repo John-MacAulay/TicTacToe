@@ -4,8 +4,7 @@ namespace TicTacToe2
 {
     public class GridPosition
     {
-
-
+        
         public GridPosition(int row, int column )
         {
             Row = row;
@@ -15,8 +14,6 @@ namespace TicTacToe2
         // private properties go above   - check if ya want JB
         public int Row { get; set; }
         public int Column { get; set; }
-
-        
         
         // This override below  which changes compare by reference to compare by value for this object : 
         // stops equality checking using memory location but rather uses value references as described below

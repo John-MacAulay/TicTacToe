@@ -6,6 +6,7 @@ namespace TicTacToe2
 
         public Board()
         {
+            // char.ConvertFromUtf32(0x000000B7)   would be a better dot for pacman
             CurrentBoardState = new string [3, 3]
             {
                 {".", ".", "."},
