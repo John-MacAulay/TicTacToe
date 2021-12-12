@@ -14,7 +14,7 @@ namespace TicTacToe2Tests
             var player = new Player(name, mark);
 
             // Act
-            var actual = player.mark;
+            var actual = player.Mark;
 
             // Assert
             Assert.Equal(expected,actual);

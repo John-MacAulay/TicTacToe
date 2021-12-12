@@ -70,7 +70,7 @@ namespace TicTacToe2
             _validMoveMade = false;
             while (!_validMoveMade)
             {
-                _view.PrintText($" {player.name} enter a coord x,y to place your X or enter 'q' to give up:");
+                _view.PrintText($" {player.Name} enter a coord x,y to place your X or enter 'q' to give up:");
                 var input = _view.GetText();
 
                 CheckForQuit(input, player);
@@ -89,7 +89,7 @@ namespace TicTacToe2
             if (_gameOver) return;
             var position = ValidatePosition(input);
             if (!_validMoveMade) return;
-            Board.CurrentBoardState[position.Row, position.Column] = player.mark;
+            Board.CurrentBoardState[position.Row, position.Column] = player.Mark;
             _view.PrintText(Board.Show());
         }
 
@@ -112,7 +112,7 @@ namespace TicTacToe2
 
         private void ChangeToGameWonStates(Player player)
         {
-            if (player.name == "Player 1")
+            if (player.Name == "Player 1")
             {
                 _playerOneWon = true;
             }
@@ -127,8 +127,8 @@ namespace TicTacToe2
             var playerWins = false;
             for (var i = 0; i <= 2; i++)  
             {
-                if (Board.CurrentBoardState[i, 0] == player.mark && Board.CurrentBoardState[i, 1] == player.mark &&
-                    Board.CurrentBoardState[i, 2] == player.mark)
+                if (Board.CurrentBoardState[i, 0] == player.Mark && Board.CurrentBoardState[i, 1] == player.Mark &&
+                    Board.CurrentBoardState[i, 2] == player.Mark)
                 {
                     playerWins = true;
                 }
@@ -141,8 +141,8 @@ namespace TicTacToe2
             bool playerWins = false;
             for (int i = 0; i <= 2; i++) 
             {
-                if (Board.CurrentBoardState[0, i] == player.mark && Board.CurrentBoardState[1, i] == player.mark &&
-                    Board.CurrentBoardState[2, i] == player.mark)
+                if (Board.CurrentBoardState[0, i] == player.Mark && Board.CurrentBoardState[1, i] == player.Mark &&
+                    Board.CurrentBoardState[2, i] == player.Mark)
                 {
                     playerWins = true;
                 }
@@ -154,13 +154,13 @@ namespace TicTacToe2
         private bool CheckPlayerWinsOnDiagonal(Player player)
         {
             var playerWins =
-                Board.CurrentBoardState[0, 0] == player.mark
-                && Board.CurrentBoardState[1, 1] == player.mark &&
-                Board.CurrentBoardState[2, 2] == player.mark
+                Board.CurrentBoardState[0, 0] == player.Mark
+                && Board.CurrentBoardState[1, 1] == player.Mark &&
+                Board.CurrentBoardState[2, 2] == player.Mark
                 
-                || Board.CurrentBoardState[2, 0] == player.mark
-                && Board.CurrentBoardState[1, 1] == player.mark &&
-                Board.CurrentBoardState[0, 2] == player.mark;
+                || Board.CurrentBoardState[2, 0] == player.Mark
+                && Board.CurrentBoardState[1, 1] == player.Mark &&
+                Board.CurrentBoardState[0, 2] == player.Mark;
 
             return playerWins;
         }

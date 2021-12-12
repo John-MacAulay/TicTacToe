@@ -57,7 +57,6 @@ namespace TicTacToe2Tests
             // Arrange
             var testView = new TestView(new []{""});
             var gameLogic = new GameLogic(testView);
-            var player = new Player("Player 1", "X");
 
             // Act
             var actual =gameLogic.ValidatePosition(input);
@@ -116,7 +115,7 @@ namespace TicTacToe2Tests
             gameLogic.DisplayResultOfGame();
             var actual = testView.FakeOutput[0];
             
-            Assert.Equal(expected,actual);
+            Assert.Equal(expected, actual);
         }
     }
     
