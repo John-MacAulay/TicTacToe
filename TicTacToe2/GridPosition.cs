@@ -18,6 +18,8 @@ namespace TicTacToe2
         // This override below  which changes compare by reference to compare by value for this object : 
         // stops equality checking using memory location but rather uses value references as described below
         // get this stuff via right click generate and then equality members.
+        // checking for github token changes
+        
         
         protected bool Equals(GridPosition other)
         {
