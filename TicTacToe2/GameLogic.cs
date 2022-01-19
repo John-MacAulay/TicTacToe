@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace TicTacToe2
 {
@@ -25,18 +26,16 @@ namespace TicTacToe2
 
         public void PlayTicTacToe()
         {
-           SetUpStandardPlayerNames();
-           DisplayWelcomeAndInitialBoard();
+            SetUpStandardPlayerNames();
+            DisplayWelcomeAndInitialBoard();
             while (!_gameOver)
             {
-                foreach (var player in _players)
+                foreach (var player in _players.Where(player => !_gameOver))
                 {
-                    if (!_gameOver)
-                    {
-                        NewRound(player);
-                    }
+                    NewRound(player);
                 }
             }
+
             DisplayResultOfGame();
         }
 
@@ -52,6 +51,7 @@ namespace TicTacToe2
             _view.PrintText("\n Here's the current board:");
             _view.PrintText(Board.Show());
         }
+
         public void DisplayResultOfGame()
         {
             if (_playerOneWon)
@@ -64,6 +64,7 @@ namespace TicTacToe2
             }
             else _view.PrintText("It's a draw.");
         }
+
         public void NewRound(Player player)
         {
             _turnCount++;
@@ -75,7 +76,7 @@ namespace TicTacToe2
 
                 CheckForQuit(input, player);
                 GetPositionToPlay(input, player);
-                if (_turnCount > 9)   
+                if (_turnCount > 9)
                 {
                     _gameOver = true;
                 }
@@ -100,13 +101,15 @@ namespace TicTacToe2
             {
                 playerWins = CheckPlayerWinsOnColumn(player);
             }
+
             if (playerWins == false)
             {
                 playerWins = CheckPlayerWinsOnDiagonal(player);
             }
-            if(playerWins)
+
+            if (playerWins)
             {
-                  ChangeToGameWonStates(player);
+                ChangeToGameWonStates(player);
             }
         }
 
@@ -120,12 +123,14 @@ namespace TicTacToe2
             {
                 _playerTwoWon = true;
             }
+
             _gameOver = true;
         }
+
         private bool CheckPlayerWinsOnRow(Player player)
         {
             var playerWins = false;
-            for (var i = 0; i <= 2; i++)  
+            for (var i = 0; i <= 2; i++)
             {
                 if (Board.CurrentBoardState[i, 0] == player.Mark && Board.CurrentBoardState[i, 1] == player.Mark &&
                     Board.CurrentBoardState[i, 2] == player.Mark)
@@ -136,10 +141,11 @@ namespace TicTacToe2
 
             return playerWins;
         }
+
         private bool CheckPlayerWinsOnColumn(Player player)
         {
             bool playerWins = false;
-            for (int i = 0; i <= 2; i++) 
+            for (int i = 0; i <= 2; i++)
             {
                 if (Board.CurrentBoardState[0, i] == player.Mark && Board.CurrentBoardState[1, i] == player.Mark &&
                     Board.CurrentBoardState[2, i] == player.Mark)
@@ -157,14 +163,13 @@ namespace TicTacToe2
                 Board.CurrentBoardState[0, 0] == player.Mark
                 && Board.CurrentBoardState[1, 1] == player.Mark &&
                 Board.CurrentBoardState[2, 2] == player.Mark
-                
                 || Board.CurrentBoardState[2, 0] == player.Mark
                 && Board.CurrentBoardState[1, 1] == player.Mark &&
                 Board.CurrentBoardState[0, 2] == player.Mark;
 
             return playerWins;
         }
-        
+
 
         private void CheckForQuit(string input, Player player)
         {
