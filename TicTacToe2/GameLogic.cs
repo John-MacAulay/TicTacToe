@@ -71,7 +71,7 @@ namespace TicTacToe2
             _validMoveMade = false;
             while (!_validMoveMade)
             {
-                _view.PrintText($" {player.Name} enter a coord x,y to place your X or enter 'q' to give up:");
+                _view.PrintText($" {player.Name} enter a coord x,y to place your {player.Mark} or enter 'q' to give up:");
                 var input = _view.GetText();
 
                 CheckForQuit(input, player);

@@ -7,28 +7,30 @@ namespace TicTacToe2
     public class Players
     {
         private Player _player;
-        //private readonly List<Player> _players = new();
+        private readonly List<Player> _players = new();
         public bool IsEmpty { get; private set; } = true;
 
         // public Players()
         // {
         //     
         // }
-        // public int countPlayers()
-        // {
-        //   return _players.Count;
-        // }
+        //
 
 
         public void AddPlayer(Player playerToAdd)
         {
-            _player = playerToAdd;
+            _players.Add(playerToAdd);
             IsEmpty = false;
         }
 
-        public Player GetPlayer()
+        public Player GetPlayer(int playerNumber)
         {
-            return _player;
+            return _players[playerNumber-1];
+        }
+
+        public object Count()
+        {
+            return _players.Count;
         }
     }
 }

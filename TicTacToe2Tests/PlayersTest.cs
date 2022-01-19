@@ -36,7 +36,8 @@ namespace TicTacToe2Tests
         {
             // Arrange 
             var players = new Players();
-            var player = players.GetPlayer();
+            players.AddPlayer(new Player("Player One","X"));
+            var player = players.GetPlayer(1);
             
             // Act
             Assert.IsType<Player>(player);
@@ -51,15 +52,47 @@ namespace TicTacToe2Tests
             players.AddPlayer(playerToAdd);
             
             // Act 
-            var actual = players.GetPlayer();
+            var actual = players.GetPlayer(1);
             
             // Assert
-            var expected = playerToAdd;
-            Assert.Equal(expected,actual);
+            Assert.Equal(playerToAdd,actual);
         }
-        
-        /// do multi players
-        /// retrieve one of a number of Players
-        /// 
+        [Fact]
+        public void GivenABlankPlayers_WhenTwoPlayersAreAdded_PlayerCountShouldBeEqualToTotalNumberOfPlayersAdded()
+        {
+            // Arrange 
+            var players = new Players();
+            var playerOne = new Player("Player One", "X");
+            var playerTwo = new Player("Player Two", "O");
+            players.AddPlayer(playerOne);
+            players.AddPlayer((playerTwo));
+            
+            // Act 
+            var actual = players.Count();
+            
+            // Assert
+            const int expected = 2;
+            Assert.Equal(expected,actual);
+            
+            
+        }
+        [Fact]
+        public void GivenABlankPlayers_WhenTwoPlayersAreAdded_GetPLayerShouldReturnPlayersAccordingToTheirIndicesInList()
+        {
+            // Arrange 
+            var players = new Players();
+            var playerOne = new Player("Player One", "X");
+            var playerTwo = new Player("Player Two", "O");
+            players.AddPlayer(playerOne);
+            players.AddPlayer((playerTwo));
+            
+            // Act 
+
+            // Assert
+            var expected = players.GetPlayer(2);
+            Assert.Equal(expected,playerTwo);
+            
+            
+        }
     }
 }
