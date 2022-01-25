@@ -32,19 +32,20 @@ namespace TicTacToe2Tests
         }
 
         [Fact]
-        public void GivenAPlayersWithOnePlayer_GetPlayer_ReturnsAPlayer()
+        public void GivenAPlayersWithOnePlayer_GetCurrentPlayer_ReturnsTheExpectedPlayer()
         {
             // Arrange 
-            var players = new Players();
-            players.AddPlayer(new Player("Player One","X"));
-            var player = players.GetPlayer(1);
+            var players = new Players(); 
+            var expectedPlayer = new Player("Player One","X");
+            players.AddPlayer(expectedPlayer);
+            var actualPlayer = players.GetCurrentPlayer();
             
             // Act
-            Assert.IsType<Player>(player);
+            Assert.Equal(expectedPlayer,actualPlayer);
         }
 
         [Fact]
-        public void GivenANewPlayerClass_WhenAddingPlayer()
+        public void GivenANewPlayersClass_WhenWeAddPlayer_ThenGetPlayerShouldReturnThisPlayer()
         {
             // Arrange
             var players = new Players();
@@ -52,7 +53,7 @@ namespace TicTacToe2Tests
             players.AddPlayer(playerToAdd);
             
             // Act 
-            var actual = players.GetPlayer(1);
+            var actual = players.GetCurrentPlayer();
             
             // Assert
             Assert.Equal(playerToAdd,actual);
@@ -74,8 +75,8 @@ namespace TicTacToe2Tests
             const int expected = 2;
             Assert.Equal(expected,actual);
             
-            
         }
+        
         [Fact]
         public void GivenABlankPlayers_WhenTwoPlayersAreAdded_GetPLayerShouldReturnPlayersAccordingToTheirIndicesInList()
         {
@@ -84,12 +85,16 @@ namespace TicTacToe2Tests
             var playerOne = new Player("Player One", "X");
             var playerTwo = new Player("Player Two", "O");
             players.AddPlayer(playerOne);
-            players.AddPlayer((playerTwo));
-            
+            players.AddPlayer(playerTwo);
+            players.AdvanceToNextPlayer();
+       
             // Act 
+            var actual = players.GetCurrentPlayer();
 
             // Assert
-            var expected = players.GetPlayer(2);
+           
+            var expected = playerTwo;
+            
             Assert.Equal(expected,playerTwo);
             
             
