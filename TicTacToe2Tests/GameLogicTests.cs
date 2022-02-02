@@ -91,10 +91,12 @@ namespace TicTacToe2Tests
             
         }
         [Theory]
-        [InlineData(0,0,0,1,2,2,"Player 1","X","It's a draw.")]
-        [InlineData(0,0,0,1,0,2,"Player 1","X","Player One Wins!")]
-        [InlineData(1,0,1,1,1,2,"Player 2","O","Player Two Wins!")]
-        [InlineData(2,0,2,1,2,2,"Player 2","O","Player Two Wins!")]
+        [InlineData(0,0,0,1,2,2,"Player One","X","It's a draw.")]
+        
+        [InlineData(0,0,0,1,0,2,"Player One","X","Player One has won!")]
+        
+        [InlineData(1,0,1,1,1,2,"Player Two","O","Player Two has won!")]
+        [InlineData(2,0,2,1,2,2,"Player Two","O","Player Two has won!")]
         
         public void GivenABoard_CheckPlayerWon_shouldReturnCorrectWinner(
             int firstXGridCoordinate, int firstYGridCoordinate,
@@ -107,10 +109,10 @@ namespace TicTacToe2Tests
 
             var testView = new TestView(new[] {""});
             var gameLogic = new GameLogic(testView);
+            var player = new Player(playerName,playerMark);
             gameLogic.Board.CurrentBoardState[firstXGridCoordinate, firstYGridCoordinate] = playerMark;
             gameLogic.Board.CurrentBoardState[secondXGridCoordinate, secondYGridCoordinate] = playerMark;
             gameLogic.Board.CurrentBoardState[thirdXGridCoordinate, thirdYGridCoordinate] = playerMark;
-            var player = new Player(playerName,playerMark);
             gameLogic.CheckPlayerWon(player);
             gameLogic.DisplayResultOfGame();
             var actual = testView.FakeOutput[0];

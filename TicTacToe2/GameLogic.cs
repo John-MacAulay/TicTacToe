@@ -8,14 +8,9 @@ namespace TicTacToe2
     public class GameLogic
     {
         private readonly IView _view;
-
         public readonly Board Board;
-
-        //  private readonly List<Player> _players;
         private readonly Players _players;
         private bool _gameOver;
-        private bool _playerOneWon;
-        private bool _playerTwoWon;
         private Player _winningPlayer;
         private bool _validMoveMade;
         private int _turnCount = 1;
@@ -25,14 +20,13 @@ namespace TicTacToe2
             _view = view ?? new View();
             Board = new Board();
             _players = new Players();
-            _gameOver = false;
         }
 
         public void PlayTicTacToe()
         {
             SetUpStandardPlayerNames();
             DisplayWelcomeAndInitialBoard();
-            while (!_gameOver)
+            while (!_gameOver)       
             {
                 var player = _players.GetCurrentPlayer();
                 NewRound(player);
@@ -57,15 +51,7 @@ namespace TicTacToe2
 
         public void DisplayResultOfGame()
         {
-            if (_playerOneWon)
-            {
-                _view.PrintText("Player One Wins!");
-            }
-            else if (_playerTwoWon)
-            {
-                _view.PrintText("Player Two Wins!");
-            }
-            else _view.PrintText("It's a draw.");
+            _view.PrintText(_winningPlayer != null ? $"{_winningPlayer.Name} has won!" : "It's a draw.");
         }
 
         public void NewRound(Player player)
@@ -77,14 +63,12 @@ namespace TicTacToe2
                 _view.PrintText(
                     $" {player.Name} enter a coord x,y to place your {player.Mark} or enter 'q' to give up:");
                 var input = _view.GetText();
-
-                CheckForQuit(input, player);
+                CheckForQuit(input);
                 GetPositionToPlay(input, player);
                 if (_turnCount > 9)
                 {
                     _gameOver = true;
                 }
-
                 CheckPlayerWon(player);
             }
         }
@@ -141,8 +125,8 @@ namespace TicTacToe2
 
         private bool CheckPlayerWinsOnColumn(Player player)
         {
-            bool playerWins = false;
-            for (int i = 0; i <= 2; i++)
+            var playerWins = false;
+            for (var i = 0; i <= 2; i++)
             {
                 if (Board.CurrentBoardState[0, i] == player.Mark && Board.CurrentBoardState[1, i] == player.Mark &&
                     Board.CurrentBoardState[2, i] == player.Mark)
@@ -168,19 +152,16 @@ namespace TicTacToe2
         }
 
 
-        private void CheckForQuit(string input, Player player)
+        private void CheckForQuit(string input)
         {
             if (input.ToLower() != "q") return;
             _validMoveMade = true;
             _gameOver = true;
-            // need to fix this this !!!1!
-            
             _players.AdvanceToNextPlayer();
-            if (player == _players.GetCurrentPlayer())
-            {
-                _playerTwoWon = true;
-            }
-            else _playerOneWon = true;
+            var player = _players.GetCurrentPlayer();
+            
+                _winningPlayer = player;
+     
         }
 
 
