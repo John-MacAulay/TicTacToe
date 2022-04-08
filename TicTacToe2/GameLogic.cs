@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-
 namespace TicTacToe2
 {
     public class GameLogic
@@ -10,7 +6,6 @@ namespace TicTacToe2
         private readonly IView _view;
         public readonly Board Board;
         private readonly Players _players;
-        private bool _gameOver;
         private Player _winningPlayer;
         private bool _validMoveMade;
         private int _turnCount = 1;
@@ -26,14 +21,27 @@ namespace TicTacToe2
         {
             SetUpStandardPlayerNames();
             DisplayWelcomeAndInitialBoard();
-            while (!_gameOver)       
+            PlayGameRounds();
+            DisplayResultOfGame();
+        }
+
+        private void PlayGameRounds()
+        {
+            while (IsGameNotOver())
             {
                 var player = _players.GetCurrentPlayer();
                 NewRound(player);
                 _players.AdvanceToNextPlayer();
             }
+        }
 
-            DisplayResultOfGame();
+        private bool IsGameNotOver()
+        {
+            if (_turnCount > 9)
+            {
+                return false;
+            }
+            return _winningPlayer == null;
         }
 
         public void SetUpStandardPlayerNames()
@@ -65,17 +73,14 @@ namespace TicTacToe2
                 var input = _view.GetText();
                 CheckForQuit(input);
                 GetPositionToPlay(input, player);
-                if (_turnCount > 9)
-                {
-                    _gameOver = true;
-                }
+               // IsGameNotOver();
                 CheckPlayerWon(player);
             }
         }
 
         public void GetPositionToPlay(string input, Player player)
         {
-            if (_gameOver) return;
+            if (!IsGameNotOver()) return;
             var position = ValidatePosition(input);
             if (!_validMoveMade) return;
             Board.CurrentBoardState[position.Row, position.Column] = player.Mark;
@@ -105,7 +110,7 @@ namespace TicTacToe2
         private void ChangeToGameWonStates(Player player)
         {
             _winningPlayer = player;
-            _gameOver = true;
+          //  _gameOver = true;
         }
 
         private bool CheckPlayerWinsOnRow(Player player)
@@ -156,7 +161,7 @@ namespace TicTacToe2
         {
             if (input.ToLower() != "q") return;
             _validMoveMade = true;
-            _gameOver = true;
+         //   _gameOver = true;
             _players.AdvanceToNextPlayer();
             var player = _players.GetCurrentPlayer();
             
@@ -168,6 +173,7 @@ namespace TicTacToe2
         public GridPosition ValidatePosition(string positionToPlay)
         {
             var position = new GridPosition(-1, -1);
+            // sam suggest that you shouldn't make incorrect 
             var splitStringArray = positionToPlay.Split(",");
             if (splitStringArray.Length != 2) return position;
             var positionXValid = Int32.TryParse(splitStringArray[0], out var gridPositionRow);
@@ -188,5 +194,7 @@ namespace TicTacToe2
 
             return position;
         }
+        // comment to check github stuff
+        
     }
 }

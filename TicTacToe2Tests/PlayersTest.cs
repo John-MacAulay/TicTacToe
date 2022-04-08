@@ -74,11 +74,29 @@ namespace TicTacToe2Tests
             // Assert
             const int expected = 2;
             Assert.Equal(expected,actual);
-            
         }
         
         [Fact]
-        public void GivenABlankPlayers_WhenTwoPlayersAreAdded_GetPLayerShouldReturnPlayersAccordingToTheirIndicesInList()
+        public void GivenABlankPlayers_WhenTwoPlayersAreAdded_GetPLayerShouldReturnFirstPlayer()
+        {
+            // Arrange 
+            var players = new Players();
+            var playerOne = new Player("Player One", "X");
+            var playerTwo = new Player("Player Two", "O");
+            players.AddPlayer(playerOne);
+            players.AddPlayer(playerTwo);
+
+            // Act 
+            var actual = players.GetCurrentPlayer();
+
+            // Assert
+           
+            var expected = playerOne;
+            Assert.Equal(expected,actual);
+        }
+
+        [Fact]
+        public void GivenANewPlayersAndAddingTwoPlayers_WhenAdvanceToNextPLayer_ThenGetCurrentPLayerWillReturnPlayerTwo()
         {
             // Arrange 
             var players = new Players();
@@ -87,17 +105,36 @@ namespace TicTacToe2Tests
             players.AddPlayer(playerOne);
             players.AddPlayer(playerTwo);
             players.AdvanceToNextPlayer();
-       
+            
             // Act 
             var actual = players.GetCurrentPlayer();
-
+            
             // Assert
-           
             var expected = playerTwo;
+            Assert.Equal(expected,actual);
             
-            Assert.Equal(expected,playerTwo);
+        }
+
+        [Fact]
+        public void GivenABlankNewPlayerAndAddingTwoPLayers_ThenMultipleAdvancePlayers_CurrentPlayerPointerNeverPointsToNonExistentPlayer()
+        {
+            // Arrange 
+            var players = new Players();
+            var playerOne = new Player("Player One", "X");
+            var playerTwo = new Player("Player Two", "O");
+            players.AddPlayer(playerOne);
+            players.AddPlayer(playerTwo);
+            players.AdvanceToNextPlayer();
+            players.AdvanceToNextPlayer();
+            players.AdvanceToNextPlayer();
+            players.AdvanceToNextPlayer();
             
+            // Act 
+            var actual = players.GetCurrentPlayer();
             
+            // Assert
+            var expected = playerOne;
+            Assert.Equal(expected,actual);
         }
     }
 }

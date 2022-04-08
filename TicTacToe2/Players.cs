@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 
 
@@ -7,7 +6,7 @@ namespace TicTacToe2
     public class Players
     {
         private int _currentPlayerIndex;
-        
+
         private readonly List<Player> _players = new();
         public bool IsEmpty => _players.Count == 0;
 
@@ -23,10 +22,13 @@ namespace TicTacToe2
 
         public void AdvanceToNextPlayer()
         {
-            _currentPlayerIndex++;
-            if (_currentPlayerIndex > _players.Count)
+            if (_currentPlayerIndex >= _players.Count - 1)
             {
                 _currentPlayerIndex = 0;
+            }
+            else
+            {
+                _currentPlayerIndex++;
             }
         }
 
